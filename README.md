@@ -9,6 +9,8 @@ Vue.js
 Done:
 * Real-time cart edit
 * Email verification 
+* Dashboard, adding and editing addresses
+* View orders history
   - Main Page Search 
   - PostgreSQL Installation 
   - Payment
