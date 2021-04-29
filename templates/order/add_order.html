@@ -1,0 +1,29 @@
+{% extends '../account/profile.html' %}
+{% load static %}
+
+{% block box %}
+
+
+
+
+<div class="col-md-8 shadow-box" style="padding:5%; background-color:#fff;">
+    {% if error %}
+    <div class="alert alert-danger"  role="alert">
+        {{ error }}
+    </div>
+    {% else %}
+    <div class="alert alert-success" role="alert">
+        Order Added!
+    </div>
+
+
+    <p>Order from {{ order.seller.name }}</p>
+    <p>
+        {% for entry in order.entries.all %}
+        {{ entry.item }}: {{ entry.quantity }}
+        {% endfor %}
+    </p>
+</div>
+    {% endif %}
+
+{% endblock box %}

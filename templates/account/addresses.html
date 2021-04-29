@@ -1,0 +1,21 @@
+{% extends './profile.html' %}
+{% load static %}
+
+{% block box %}
+
+    <div class="col-md-8">
+            <a href="{%url 'account:add-address' %}"><button class="btn btn-success" type="button">Add</button></a>
+
+            <div class="card-group" style="display:block;">
+                    {% for address in addresses %}
+                        <div class="card"  style="margin-top:10px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">{{ address.city }}</h4>
+                                    <p class="card-text">{{ address.address }}</p><a href="{%url 'account:edit-address' address.id %}"><button class="btn btn-primary" type="button">Edit</button></a>
+                                </div>
+                        </div>
+                    {% endfor %}
+            </div>
+    </div>
+{% endblock box %}
+

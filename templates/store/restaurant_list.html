@@ -1,0 +1,56 @@
+{% extends '../base.html' %}
+{% load static %}
+<div class='rounded-circle' style="width:100px; height:100px; background-image:url('{{ seller.logo.url }}'); background-size: 100px 100px;"></div>
+
+
+
+{% block body %}
+
+
+
+    <div class="team-boxed">
+        <div class="container">
+            <div class="row people">
+                {% for seller in page_obj %}
+                    <div class="col-md-6 col-lg-4 item">
+                        <a style='text-decoration:inherit; color:inherit; alignment:inherit;' href="{% url 'store:menu' seller.slug %}">
+                            <div class="box shadow-box"><img style='border-radius:3px' src='{{ seller.logo.url}}'>
+                                <h3 class="name">{{ seller.name }}</h3>
+                                <p class="title"></p>
+                                <p class="description">{{ seller.address }}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+                <div class='d-flex justify-content-center' style='width:100%'>
+                        <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                    {% endif %}
+                            
+                            <li class="page-item"><a class="page-link"  style='color:grey' href="#">{{ page_obj.number }}</a></li>
+
+                                    {% for num in '1234'|make_list %}
+                                        {% with page_obj.number|add:num as next %}
+                                            {% if next <= page_obj.paginator.num_pages%}
+                                                <li class="page-item"><a class="page-link" href="?page={{ next }}"><span aria-hidden="true">{{ next }}</span></a></li>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endfor %} 
+                                                                                                                             
+                                    {% if page_obj.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    {% endif %}
+                        </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</html>
+{% endblock body %}
+
+

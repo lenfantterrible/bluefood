@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Orelega One">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+
+
+<style>
+    .cart {
+        font-family: Orelega One;
+        background-color: #fff;
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .item:hover {
+        cursor: pointer;
+    }
+
+    .cart div {
+
+        margin: 20px;
+    }
+
+    .cart div p {
+
+        display: block;
+        margin: 20px;
+    }
+
+    .col {
+        margin: 0px;
+    }
+
+    basket {
+        width: 100%;
+        display: block;
+    }
+
+    .icon {
+
+        color: grey;
+        font-size: 200%;
+    }
+
+    .update-button {
+
+        width: 20px;
+        height: 20px;
+        text-align: center;
+    }
+
+    td {
+        text-transform: capitalize;
+    }
+</style>
+{% endblock style %}
+
+
+{% block body %}
+
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    // when life is settled, load up the fun stuff
+    document.addEventListener('DOMContentLoaded', function () {
+
+        new Vue({
+            delimiters: ['${', '}'],
+            el: '#app',
+            // define data - initial display text
+            data: {
+                items: null,
+                basket: null,
+                total: 0,
+                loading: false,
+            },
+            computed: {
+                total_price() {
+
+                    sum = 0;
+                    for (item in this.basket.data) {
+                        sum += parseFloat(this.basket.data[item].price) * parseFloat(this.basket.data[
+                            item].qty);
+                    }
+                    this.total = sum.toFixed(2);
+                    if (sum === 0) {
+                        window.location.href = "{%url 'store:menu' request.session.seller %}";
+                    }
+                },
+            },
+            methods: {
+
+                get_items(id) {
+                    axios.get("seller/{{ seller.slug }}/type/" + id).then(response => {
+                        this.items = response.data;
+                        this.current_type = id;
+                    })
+                },
+                update(name, qty) {
+                    let data = new FormData(); // 2
+                    this.loading = true;
+                    data.append("item_name", name);
+                    data.append("qty", qty);
+                    data.append("action", 'post');
+                    data.append("csrfmiddlewaretoken", '{{csrf_token}}'); // 3
+
+                    axios.post("{%url 'basket:basket_update' %}", data) // 4
+                        .then(res => {
+                            this.basket = res.data;
+                            this.total_price();
+                        }) // 5
+                        .catch(errors => console.log(errors)) // 6
+                        .finally(() => this.loading = false)
+                },
+                get_basket() {
+                    axios.get("{%url 'basket:get_basket'  request.session.seller  %}").then(
+                        response => {
+                            this.basket = response.data;
+                            this.total = this.total_price();
+                        })
+                },
+                get_btn_class(id) {
+
+                    return "btn btn-info"
+                }
+
+            },
+            beforeMount() {
+                this.get_items({{seller.item_types.all.first.id}});
+                this.get_basket();
+            }
+        })
+    })
+</script>
+
+
+<form action="{%url 'order:add-order'%}" method="post">
+{% csrf_token %}
+    <div class="d-flex justify-content-center" style="width:100%">
+        <div class="container" style="margin:10%; width:50%; background-color:#fff;">
+            <div id='app' class="row">
+                <div class='col-md-8 col-lg-8'>
+                    <div style="width:100%; padding-top:10px; padding-bottom:10px; display:block;" class="shadow-box cart">
+                        <p style='width:100%; text-align:center; margin-top:20px;'><i
+                                class="fas fa-shopping-basket icon"></i></p>
+                        <div class="spinner-border spinner-border-sm  text-info" style="position:absolute;" v-show="loading"
+                            role="status">
+                        </div>
+
+                        <table class="table" style="table-layout: fixed;">
+                            <tbody style="width:100%">
+                                <tr v-for="item,key in basket.data" style="width:100%; vertical-align: middle;">
+                                    <td style="vertical-align: middle; width:50%;">${ key }</td>
+                                    <td style="vertical-align: middle;">${ item.qty }</td>
+                                    <td style="vertical-align: middle; width:44%; ">
+                                        <div class="btn-group btn-group-sm">
+                                            <button @click="update(key, 1)" class="btn btn-info" type="button"> + </button>
+                                            <button @click="update(key, -1)" class="btn btn-danger" type="button"> -
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: middle">Total</td>
+                                    <td style="vertical-align: middle">$${ total }</td>
+                                    <td style="vertical-align: middle"></td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align: middle"><input type="submit" class="btn btn-info" value="Order">  </td>
+                                    <td style="vertical-align: middle"></td>
+                                    <td style="vertical-align: middle"></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4">
+
+                    {% for address in addresses %}
+                    <div class="card" style="margin-top:10px;">
+                        <div class="card-body">
+                            <input class="form-check-input" style="marign:10px;" type="radio" name="address"
+                                id="{{ address.id }}" value="{{ address.id }}">
+                            <h4 class="card-title">{{ address.city }}</h4>
+                            <p class="card-text">{{ address.address }}</p>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <a href="{%url 'account:add-address' %}"><button class="btn btn-success" type="button">Add</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock body %}

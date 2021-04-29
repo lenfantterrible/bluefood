@@ -1,0 +1,98 @@
+.custom-header {
+  background: linear-gradient(150deg, rgb(0,0,200), rgb(153,73,255));
+  padding: 20px 40px;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 0;
+}
+
+.custom-header a.navbar-brand {
+  color: #fff;
+  font: normal 28px Cookie, Arial, Helvetica, sans-serif;
+  line-height: 0.5;
+  margin-right: 40px;
+  /*background: #292c2f;*/
+}
+
+.custom-header a.navbar-brand span {
+  /*color: rgb(83,83,255);*/
+}
+
+.custom-header ul.nav.navbar-nav.links li a {
+  font: 14px Arial, Helvetica, sans-serif;
+  opacity: 0.9;
+  text-decoration: none;
+  color: #fff;
+  /*background: #292c2f;*/
+  border: 0;
+}
+
+.custom-header ul.nav.navbar-nav li a:hover {
+  opacity: 1;
+}
+
+.custom-header .badge {
+  position: absolute;
+  top: 4px;
+  border-radius: 2px;
+  font-size: 11px;
+  color: #fff;
+  background-color: #2A6A92;
+  padding: 2px 4px;
+  font-weight: normal;
+}
+
+.custom-header li.dropdown, .custom-header li.dropdown.open {
+  background: #3a3c3e;
+}
+
+.custom-header li.dropdown .dropdown-toggle {
+  border-radius: 2px;
+  color: #fff;
+  padding: 8px 14px;
+  background: #3a3c3e;
+  opacity: 0.9;
+  border: 0;
+  margin: 0;
+}
+
+.custom-header li.dropdown .dropdown-toggle:focus, .custom-header li.dropdown .dropdown-toggle:hover, .custom-header li.dropdown .dropdown-toggle:active {
+  background: #ffffff;
+  color: #fff;
+}
+
+.custom-header ul.nav.navbar-nav.navbar-right .dropdown li a {
+  font: bold 13px Arial, Helvetica, sans-serif;
+}
+
+img.dropdown-image {
+  border-radius: 50%;
+  width: 32px;
+  margin-left: 10px;
+}
+
+.custom-header .dropdown ul {
+  background-color: #3a3c3e;
+  border: 0;
+  min-width: 140px;
+}
+
+.custom-header .dropdown ul li {
+  background-color: #3a3c3e;
+  padding: 7px;
+  text-align: center;
+}
+
+
+.navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
+  color: #fff;
+}
+
+.navbar-light .navbar-toggler {
+  color: rgba(255,255,255,0.5);
+  border-color: rgba(255,255,255,0.48);
+}
+
+button:hover {
+  background-color: red;
+}

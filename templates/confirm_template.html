@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body %}
+{% if success %}
+{{ user.name }}, your account is confirmed!
+{% else %}
+Error, invalid token!
+{% endif %}
+{% endblock body %}
+

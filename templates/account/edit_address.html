@@ -1,0 +1,36 @@
+{% extends './profile.html' %}
+{% load static %}
+{% load city_tags %}
+
+
+{% block box %}
+
+    <div class="col-md-8">
+            <div class="row">
+                <div class="card-group">
+                            <div class="card">
+                                    <div class="card-body">
+                                        <form action="{%url 'account:edit-address' address.id %}" method="post">
+                                        {% csrf_token %}
+                                    <div class="form-group">
+                                        <select name='city' class="form-control form-control-lg">
+                                        <option value='{{address.city.id}}'>{{ address.city }}</option>
+                                        {% for city in cities|exclude_city:address.city.id %}
+                                            <option value='{{city.id}}'>{{ city.name }}</option> 
+                                        {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class='form-group'>
+                                        <textarea class="form-control" name='address' rows="3">{{ address.address }}</textarea>
+                                    </div>
+                                        <input type='submit' class="btn btn-primary"/></div>
+                                    </form>
+                                    </div>
+
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock box %}

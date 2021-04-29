@@ -1,0 +1,53 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+.input {
+    margin:10px;
+    width: 50%;
+}
+</style>
+{% endblock style %}
+
+
+{% block body %}
+<div class="container d-flex justify-content-center" style='margin:10%; width:100%;'>
+                    <div class="card d-flex justify-content-center" style="width:100%">
+                        <div class="card-body shadow-box">
+                            <h4 class="card-title">Register</h4>
+                            <form method="post" action="{% url 'account:register' %}">
+                                {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        <div class="fieldWrapper">
+                            {{ form.email.errors }}
+                            {{ form.email }}
+                        </div>
+                        <div class="fieldWrapper">
+                            {{ form.name.errors }}
+                            {{ form.name }}
+                        </div>
+                        <div class="fieldWrapper">
+                            {{ form.password1.errors }}
+                            {{ form.password1 }}
+                        </div>
+                                                <div class="fieldWrapper">
+                            {{ form.password2.errors }}
+                            {{ form.password2 }}
+                        </div>
+                        <div class="fieldWrapper">
+                            <h6> Date of birth</h6>
+                            {{ form.date_of_birth.errors }}
+                            {{ form.date_of_birth }}
+                        </div>
+
+
+
+                            <input type="submit" value="login" class="btn btn-primary">
+                            <input type="hidden" name="next" value="{{ next }}">
+                            </form>
+                        </div>
+                    </div>
+        </div>
+{% endblock body %}
+

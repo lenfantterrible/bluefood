@@ -1,0 +1,31 @@
+{% extends './profile.html' %}
+{% load static %}
+
+{% block box %}
+
+    <div class="col-md-8">
+            <div class="card-group">
+                        <div class="card">
+                                <div class="card-body">
+                                    <form action="{%url 'account:add-address'%}" method="post">
+                                    {% csrf_token %}
+                                <div class="form-group">
+                                    <select name='city' class="form-control form-control-lg">
+                                    {% for city in cities %}
+                                        <option value='{{city.id}}'>{{ city.name }}</option> 
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                                <div class='form-group'>
+                                    <textarea class="form-control" name='address' rows="3" placeholder="Address"></textarea>
+                                </div>
+                                    <input type='submit' class="btn btn-primary" value="Add"/></div>
+                                </form>
+                                </div>
+
+                        </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock box %}

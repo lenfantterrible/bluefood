@@ -1,0 +1,49 @@
+{% extends 'account/profile.html' %}
+{% load static %}
+
+{% block box %}
+
+<div class="col-md-8">
+
+        <div class="card-group" style="display:block;">
+                {% for order in orders %}
+                    <div class="card"  style="margin-top:10px;">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ order.seller }}</h4>
+                                {% for entry in order.entries.all %}
+                                <p class="card-text">{{ entry.item }}: ${{ entry.item.price }} {{ entry.quantity }}</p>
+                                {% endfor %}
+                                <p class="card-text">{{ order.address.city}}</p>
+                                <p class="card-text">{{ order.address.address}}</p>
+
+                                
+                            </div>
+                    </div>
+
+                    
+                {% endfor %}
+        </div>
+</div>
+
+               <div class='d-flex justify-content-center' style='width:100%'>
+                        <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                    {% endif %}
+                            {% if orders %}
+                            <li class="page-item"><a class="page-link"  style='color:grey' href="#">{{ page_obj.number }}</a></li>
+                            {% endif %}
+                                    {% for num in '1234'|make_list %}
+                                        {% with page_obj.number|add:num as next %}
+                                            {% if next <= page_obj.paginator.num_pages%}
+                                                <li class="page-item"><a class="page-link" href="?page={{ next }}"><span aria-hidden="true">{{ next }}</span></a></li>
+                                            {% endif %}
+                                        {% endwith %}
+                                    {% endfor %} 
+                                                                                                                             
+                                    {% if page_obj.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    {% endif %}
+                        </ul>
+                </div>
+{% endblock box %}

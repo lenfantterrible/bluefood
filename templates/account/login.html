@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<style>
+
+.card-body input {
+
+    margin-top:10px;
+}
+
+.card-body a:hover{
+    text-decoration: none
+}
+</style>
+{% endblock style %}
+
+
+{% block body %}
+
+{% if form.errors %}
+<div class="alert alert-warning">Your username and password didn't match. Please try again.</div>
+{% endif %}
+
+{% if next %}
+    <div class="alert alert-warning">Please login to see this page.</div>
+{% endif %}
+
+        <div class="container d-flex justify-content-center" style='margin:10%; width:100%;'>
+            <div class="row">
+                    <div class="card">
+                        <div class="card-body shadow-box">
+                            <h4 class="card-title">Login</h4>
+                            <form method="post" action="{% url 'account:login' %}">
+                                {% csrf_token %}
+                                    {{ form.username }}
+                                    {{ form.password }}
+
+                            <p>
+                                <a href="{s% url 'password_reset' %}">Lost password?</a></br>
+                                <a href="{% url 'account:register' %}">Register</a>
+                            </p>
+
+                            <input type="submit" value="login" class="btn btn-primary">
+                            <input type="hidden" name="next" value="{{ next }}">
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+
+
+
+{% endblock %}

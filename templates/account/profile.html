@@ -1,0 +1,59 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block style %}
+    <style>
+
+    .card-body {
+        display: block;
+    }
+    .card-body a {
+        
+        display: block;
+        width: 100%;
+        border-bottom: 2px solid blue;
+        margin: 0px;
+        padding: 5px;
+    }
+
+    .card-body a:last-child {
+        border-bottom: none;
+    }
+    .card-body a:hover{
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+
+    </style>
+{% endblock style %}
+
+
+{% block body %}
+
+    <div class="container" style='margin:10%;'>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ request.user.name }}</h4>
+                        <a href="{%url 'account:addresses' %}">Addresses</a>
+                        <a href="{%url 'account:orders'%}">Orders</a>
+                        <a href="#">Change Password</a>
+                        <a href="{%url 'account:logout' %}">Logout</a>
+                    </div>
+                </div>
+            </div>
+            {% block box %}
+            
+            {% endblock box %}
+
+
+
+        </div>
+    </div>
+
+      
+
+{% endblock body %}
+
