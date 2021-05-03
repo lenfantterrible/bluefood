@@ -11,6 +11,6 @@ Done:
 * Email verification 
 * Dashboard, adding and editing addresses
 * View orders history
-  - Main Page Search 
+* Main Page Search 
   - PostgreSQL Installation 
   - Payment
